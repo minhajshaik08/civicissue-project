@@ -41,15 +41,15 @@ export default function MainGalleryPage() {
   };
 
   /* ================= IMAGE BUILDER ================= */
-  const getBeforeImages = (g) =>
-    Array.isArray(g.imagepaths)
-      ? g.imagepaths.map((f) => BASE_URL + f)
-      : [];
+ const getBeforeImages = (g) =>
+  Array.isArray(g.imagepaths)
+    ? g.imagepaths.map((f) => `${BASE_URL}${f.trim()}`)
+    : [];
 
-  const getAfterImages = (g) =>
-    Array.isArray(g.afterimagepath)
-      ? g.afterimagepath.map((f) => BASE_URL + f)
-      : [];
+const getAfterImages = (g) =>
+  Array.isArray(g.afterimagepath)
+    ? g.afterimagepath.map((f) => `${BASE_URL}${f.trim()}`)
+    : [];
 
   /* ================= LOADING ================= */
   if (loading) {
