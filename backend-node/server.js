@@ -5,11 +5,28 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 
-const app = express();
 
 /* ================= GLOBAL MIDDLEWARE ================= */
 
-app.use(cors()); 
+const express = require("express");
+const cors = require("cors");
+
+const app = express();
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://civicsissue.netlify.app"
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true
+  })
+);
+
+app.use(express.json());
+const cors = require("cors");
 // Enables CORS so frontend (React) can access backend APIs
 
 app.use(express.json()); 
@@ -293,6 +310,12 @@ app.use((err, req, res, next) => {
 /* ================= SERVER START ================= */
 
 const PORT = process.env.PORT || 5000;
+const HOST = process.env.HOST || "localhost";
+
 app.listen(PORT, () => {
-  console.log(`✅ Backend running at http://localhost:${PORT}`);
+  const url = HOST === "localhost"
+    ? `http://localhost:${PORT}`
+    : `http://${HOST}:${PORT}`;
+
+  console.log(`✅ Backend running at ${url}`);
 });
