@@ -9,7 +9,8 @@ function AdminForgotPassword() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const isValidEmail = (value) => /\S+@\S+\.\S+/.test(value);
+const isValidEmail = (value) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

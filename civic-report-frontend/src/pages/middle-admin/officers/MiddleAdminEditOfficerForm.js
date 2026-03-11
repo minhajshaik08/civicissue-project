@@ -60,11 +60,29 @@ export default function MiddleAdminEditOfficerForm() {
       return;
     }
 
-    if (form.password.trim() && form.password.trim().length < 6) {
-      setError("Password must be at least 6 characters if provided.");
-      return;
-    }
+   if (form.password.trim()) {
+  const password = form.password.trim();
 
+  if (password.length < 6) {
+    setError("Password must be at least 6 characters.");
+    return;
+  }
+
+  if (!/[A-Z]/.test(password)) {
+    setError("Password must contain at least one uppercase letter.");
+    return;
+  }
+
+  if (!/[a-z]/.test(password)) {
+    setError("Password must contain at least one lowercase letter.");
+    return;
+  }
+
+  if (!/[0-9]/.test(password)) {
+    setError("Password must contain at least one number.");
+    return;
+  }
+}
     setLoading(true);
 
     try {
@@ -251,7 +269,7 @@ export default function MiddleAdminEditOfficerForm() {
 
       <div className="edit-wrapper">
         <form className="edit-card" onSubmit={handleSubmit}>
-          <h3 className="edit-title">Edit Officer Details (Middle Admin)</h3>
+          <h3 className="edit-title">Edit Officer Details (Admin)</h3>
           <p className="edit-subtitle">
             Email & Employee ID are read-only ✅ | Department is mandatory ✅
           </p>

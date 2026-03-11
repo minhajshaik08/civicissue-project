@@ -134,7 +134,7 @@ export default function MiddleAdminUserActivityPage() {
 
       <div className="activity-page">
         <h3 className="activity-title">
-          User Activity Summary (Middle Admin)
+          User Activity Summary (Admin)
         </h3>
         <p className="activity-subtitle">
           Track issue submissions and login history.

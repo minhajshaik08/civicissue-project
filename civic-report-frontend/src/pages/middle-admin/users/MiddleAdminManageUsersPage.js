@@ -230,7 +230,7 @@ export default function MiddleAdminManageUsersPage() {
 
       <div className="manage-users-page">
         <h3 className="page-title">
-          Block / Unblock Users (Middle Admin)
+          Block / Unblock Users (Admin)
         </h3>
 
         <input

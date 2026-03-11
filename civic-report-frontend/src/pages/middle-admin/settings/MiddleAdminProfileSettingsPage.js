@@ -126,7 +126,7 @@ function MiddleAdminProfileSettingsPage() {
                 >
                   {avatarLetter}
                 </div>
-                <div className="mt-2 fw-bold">MIDDLE ADMIN</div>
+                <div className="mt-2 fw-bold">ADMIN</div>
               </Col>
 
               <Col md={9}>

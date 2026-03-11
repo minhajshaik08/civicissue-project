@@ -325,7 +325,7 @@ export default function MiddleAdminManageOfficersPage() {
       <div className="manage-wrapper">
         <div className="manage-header">
           <h2 className="manage-title">
-            Manage Officers (Middle Admin)
+            Manage Officers (Admin)
           </h2>
 
           <input

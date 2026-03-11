@@ -17,12 +17,10 @@ export default function GalleryListPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // view modal
   const [showModal, setShowModal] = useState(false);
   const [images, setImages] = useState([]);
   const [index, setIndex] = useState(0);
 
-  // delete modal
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [deleting, setDeleting] = useState(false);
@@ -32,6 +30,7 @@ export default function GalleryListPage() {
   }, []);
 
   /* ================= LOAD ================= */
+
   const loadGalleries = async () => {
     try {
       setLoading(true);
@@ -42,8 +41,11 @@ export default function GalleryListPage() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
+      console.log("Gallery API:", res.data);
+
       setGalleries(res.data.galleries || []);
     } catch (err) {
+      console.error(err);
       setError("Failed to load galleries");
     } finally {
       setLoading(false);
@@ -51,24 +53,30 @@ export default function GalleryListPage() {
   };
 
   /* ================= IMAGE URL BUILDER ================= */
+
   const buildAllUrls = (g) => {
     const base = "http://13.201.16.142:5000/uploads/gallary/";
-    return [
-      ...(g.imagepaths || []).map((f) => base + f),
-      ...(g.afterimagepath || []).map((f) => base + f),
-    ];
+
+    const before = (g.imagepaths || []).map((f) => base + f);
+    const after = (g.afterimagepath || []).map((f) => base + f);
+
+    return [...before, ...after];
   };
 
   /* ================= VIEW ================= */
+
   const openGallery = (g) => {
     const urls = buildAllUrls(g);
+
     if (!urls.length) return;
+
     setImages(urls);
     setIndex(0);
     setShowModal(true);
   };
 
   /* ================= DELETE ================= */
+
   const confirmDelete = (id) => {
     setDeleteId(id);
     setDeleteModal(true);
@@ -77,6 +85,7 @@ export default function GalleryListPage() {
   const handleDelete = async () => {
     try {
       setDeleting(true);
+
       const token = getAuthToken();
 
       await axios.delete(
@@ -86,15 +95,17 @@ export default function GalleryListPage() {
 
       setDeleteModal(false);
       setDeleteId(null);
-      loadGalleries(); // refresh list
+      loadGalleries();
     } catch (err) {
+      console.error(err);
       setError("Delete failed");
     } finally {
       setDeleting(false);
     }
   };
 
-  /* ================= UI ================= */
+  /* ================= LOADING ================= */
+
   if (loading) {
     return (
       <Container className="text-center py-5">
@@ -104,6 +115,8 @@ export default function GalleryListPage() {
     );
   }
 
+  /* ================= UI ================= */
+
   return (
     <Container className="py-4">
       <h5 className="mb-4">📸 My Galleries</h5>
@@ -111,11 +124,13 @@ export default function GalleryListPage() {
       {error && <Alert variant="danger">{error}</Alert>}
 
       <div className="d-flex flex-wrap gap-4">
+
         {galleries.map((g) => {
           const allUrls = buildAllUrls(g);
 
           return (
             <Card key={g.id} style={{ width: 280 }} className="shadow-sm">
+
               <div
                 style={{
                   height: 180,
@@ -125,7 +140,7 @@ export default function GalleryListPage() {
                 }}
                 onClick={() => openGallery(g)}
               >
-                {allUrls[0] ? (
+                {allUrls.length > 0 ? (
                   <img
                     src={allUrls[0]}
                     alt=""
@@ -147,10 +162,11 @@ export default function GalleryListPage() {
 
                 <div className="mb-2">
                   <Badge bg="secondary" className="me-2">
-                    Before: {g.imagepaths.length}
+                    Before: {(g.imagepaths || []).length}
                   </Badge>
+
                   <Badge bg="success">
-                    After: {g.afterimagepath.length}
+                    After: {(g.afterimagepath || []).length}
                   </Badge>
                 </div>
 
@@ -163,6 +179,7 @@ export default function GalleryListPage() {
                   >
                     View
                   </Button>
+
                   <Button
                     size="sm"
                     variant="danger"
@@ -176,18 +193,26 @@ export default function GalleryListPage() {
             </Card>
           );
         })}
+
       </div>
 
       {/* ================= VIEW MODAL ================= */}
+
       <Modal show={showModal} onHide={() => setShowModal(false)} centered size="lg">
         <Modal.Body className="text-center">
-          <img
-            src={images[index]}
-            alt=""
-            style={{ maxWidth: "100%", maxHeight: "70vh" }}
-          />
+
+          {images.length > 0 && (
+            <img
+              src={images[index]}
+              alt=""
+              style={{ maxWidth: "100%", maxHeight: "70vh" }}
+            />
+          )}
+
         </Modal.Body>
+
         <Modal.Footer className="justify-content-between">
+
           <Button
             variant="secondary"
             onClick={() =>
@@ -196,20 +221,27 @@ export default function GalleryListPage() {
           >
             ◀
           </Button>
+
           <Button
             variant="secondary"
-            onClick={() => setIndex((index + 1) % images.length)}
+            onClick={() =>
+              setIndex((index + 1) % images.length)
+            }
           >
             ▶
           </Button>
+
         </Modal.Footer>
       </Modal>
 
       {/* ================= DELETE MODAL ================= */}
+
       <Modal show={deleteModal} onHide={() => setDeleteModal(false)} centered>
+
         <Modal.Header closeButton>
           <Modal.Title>Delete Gallery</Modal.Title>
         </Modal.Header>
+
         <Modal.Body>
           Are you sure you want to permanently delete this gallery?
           <br />
@@ -217,7 +249,9 @@ export default function GalleryListPage() {
             This will delete both before & after images.
           </small>
         </Modal.Body>
+
         <Modal.Footer>
+
           <Button
             variant="secondary"
             onClick={() => setDeleteModal(false)}
@@ -225,6 +259,7 @@ export default function GalleryListPage() {
           >
             Cancel
           </Button>
+
           <Button
             variant="danger"
             onClick={handleDelete}
@@ -232,8 +267,10 @@ export default function GalleryListPage() {
           >
             {deleting ? "Deleting..." : "Delete"}
           </Button>
+
         </Modal.Footer>
       </Modal>
+
     </Container>
   );
 }

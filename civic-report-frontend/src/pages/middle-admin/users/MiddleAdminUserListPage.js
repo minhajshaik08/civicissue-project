@@ -225,7 +225,7 @@ export default function MiddleAdminUserListPage() {
       `}</style>
 
       <div className="users-page">
-        <h3 className="users-title">All Users (Middle Admin)</h3>
+        <h3 className="users-title">All Users (Admin)</h3>
 
         {/* Filters */}
         <div className="filters-row">

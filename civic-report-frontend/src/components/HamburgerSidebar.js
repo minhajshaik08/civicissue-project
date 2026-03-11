@@ -84,11 +84,16 @@ function HamburgerSidebar({
             {/* User Info */}
             <div className="sidebar-user-info">
               <div className="user-name">{user}</div>
-              {role && (
-                <div className="user-role">
-                  {role.replace("_", " ")}
-                </div>
-              )}
+             {role && (
+  <div className="user-role">
+    {role === "middle_admin"
+      ? "Admin"
+      : role
+          .split("_")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ")}
+  </div>
+)}
             </div>
           </div>
         )}

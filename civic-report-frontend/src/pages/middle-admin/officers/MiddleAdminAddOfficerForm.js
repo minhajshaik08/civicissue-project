@@ -253,7 +253,7 @@ export default function MiddleAdminAddOfficerForm() {
           <input type="text" style={{ display: "none" }} />
           <input type="password" style={{ display: "none" }} />
 
-          <div className="officer-title">Add Officer (Middle Admin)</div>
+          <div className="officer-title">Add Officer (Admin)</div>
           <div className="officer-subtitle">
             Create a new officer account
           </div>

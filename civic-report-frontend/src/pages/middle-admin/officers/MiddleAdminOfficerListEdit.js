@@ -182,7 +182,7 @@ export default function MiddleAdminOfficerListEdit() {
       <div className="page-wrapper">
         <div className="header-row">
           <h2 className="page-title">
-            Edit Officers (Middle Admin)
+            Edit Officers (Admin)
           </h2>
 
           <input

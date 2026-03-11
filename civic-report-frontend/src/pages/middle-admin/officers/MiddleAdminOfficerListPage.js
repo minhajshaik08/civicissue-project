@@ -188,7 +188,7 @@ export default function MiddleAdminOfficerListPage() {
       `}</style>
 
       <div className="page-wrapper">
-        <h2 className="page-title">Officer List (Middle Admin)</h2>
+        <h2 className="page-title">Officer List (Admin)</h2>
 
         {/* ✅ Filters */}
         <div className="filters-row">

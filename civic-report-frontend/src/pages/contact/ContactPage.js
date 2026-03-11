@@ -10,6 +10,8 @@ export default function ContactPage() {
     message: "",
   });
 
+  const [errors, setErrors] = useState({});
+
   const [sending, setSending] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
@@ -19,8 +21,46 @@ export default function ContactPage() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!form.name.trim()) {
+      newErrors.name = "Full name is required";
+    } else if (form.name.trim().length < 3) {
+      newErrors.name = "Name must be at least 3 characters";
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    if (!form.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!emailRegex.test(form.email)) {
+      newErrors.email = "Enter a valid email address";
+    }
+
+    if (!form.subject) {
+      newErrors.subject = "Please select a subject";
+    }
+
+    if (!form.message.trim()) {
+      newErrors.message = "Message is required";
+    } else if (form.message.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      setToastMsg("Please fix validation errors.");
+      setShowToast(true);
+      return;
+    }
+
     setSending(true);
 
     try {
@@ -29,6 +69,7 @@ export default function ContactPage() {
       if (res.data?.success) {
         setToastMsg("Message sent successfully!");
         setForm({ name: "", email: "", subject: "", message: "" });
+        setErrors({});
       } else {
         setToastMsg("Failed to send message.");
       }
@@ -85,17 +126,39 @@ export default function ContactPage() {
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-2">
                     <Form.Label>Full Name</Form.Label>
-                    <Form.Control name="name" value={form.name} onChange={handleChange} required />
+                    <Form.Control
+                      name="name"
+                      value={form.name}
+                      onChange={handleChange}
+                      isInvalid={!!errors.name}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.name}
+                    </Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group className="mb-2">
                     <Form.Label>Email Address</Form.Label>
-                    <Form.Control type="email" name="email" value={form.email} onChange={handleChange} required />
+                    <Form.Control
+                      type="email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      isInvalid={!!errors.email}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.email}
+                    </Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group className="mb-2">
                     <Form.Label>Subject</Form.Label>
-                    <Form.Select name="subject" value={form.subject} onChange={handleChange} required>
+                    <Form.Select
+                      name="subject"
+                      value={form.subject}
+                      onChange={handleChange}
+                      isInvalid={!!errors.subject}
+                    >
                       <option value="">Select subject</option>
                       <option>General Inquiry</option>
                       <option>Technical Support</option>
@@ -104,11 +167,23 @@ export default function ContactPage() {
                       <option>Partnership</option>
                       <option>Other</option>
                     </Form.Select>
+                    <Form.Control.Feedback type="invalid">
+                      {errors.subject}
+                    </Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group className="mb-2">
                     <Form.Label>Message</Form.Label>
-                    <Form.Control as="textarea" name="message" value={form.message} onChange={handleChange} required />
+                    <Form.Control
+                      as="textarea"
+                      name="message"
+                      value={form.message}
+                      onChange={handleChange}
+                      isInvalid={!!errors.message}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.message}
+                    </Form.Control.Feedback>
                   </Form.Group>
 
                   <Button
@@ -155,7 +230,6 @@ export default function ContactPage() {
 
       <style>{`
 
-        /* ✅ Enable scrolling */
         body {
           overflow-y: auto;
           overflow-x: hidden;

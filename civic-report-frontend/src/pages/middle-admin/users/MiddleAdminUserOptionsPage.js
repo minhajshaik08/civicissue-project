@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function MiddleAdminUserOptionsPage() {
   return (
     <div className="p-4">
-      <h3 className="mb-4">User Management (Middle Admin)</h3>
+      <h3 className="mb-4">User Management (Admin)</h3>
       <Row className="g-3">
         <Col md={4}>
           <Card className="h-100">
