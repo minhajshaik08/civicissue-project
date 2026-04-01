@@ -110,7 +110,7 @@ function AdminSettingsPage() {
           </Col>
 
           <Col md={4}>
-            <Card
+            {/* <Card
               className="clickable-card"
               onClick={() => navigate("/admin/welcome/settings/appearance")}
             >
@@ -119,7 +119,7 @@ function AdminSettingsPage() {
               <p className="card-desc">
                 Switch between light and dark mode.
               </p>
-            </Card>
+            </Card> */}
           </Col>
         </Row>
       </div>

@@ -114,7 +114,7 @@ function MiddleAdminSettingsPage() {
           </Col>
 
           <Col md={4}>
-            <Card
+            {/* <Card
               className="clickable-card"
               onClick={() =>
                 navigate("/middle-admin/dashboard/settings/appearance")
@@ -125,7 +125,7 @@ function MiddleAdminSettingsPage() {
               <p className="card-desc">
                 Switch between light and dark mode.
               </p>
-            </Card>
+            </Card> */}
           </Col>
         </Row>
       </div>

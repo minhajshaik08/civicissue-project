@@ -114,7 +114,7 @@ function OfficerSettingsPage() {
           </Col>
 
           <Col md={4}>
-            <Card
+            {/* <Card
               className="clickable-card"
               onClick={() =>
                 navigate("/officer/dashboard/settings/appearance")
@@ -125,7 +125,7 @@ function OfficerSettingsPage() {
               <p className="card-desc">
                 Switch between light and dark mode.
               </p>
-            </Card>
+            </Card> */}
           </Col>
         </Row>
 
